@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Mockup, type MockupKind } from "@/components/visuals/Mockups";
 import { Photo } from "@/components/ui/Photo";
 import type { PhotoKey } from "@/lib/photos";
+import type { SERVICE_OPTIONS } from "@/lib/site";
 
 const themes = {
   blue: "from-[#0b1530] via-[#13245a] to-[#1d4ed8]",
@@ -14,7 +15,7 @@ const themes = {
 } as const;
 
 export function PageHero({
-  crumbs, title, text, cta, secondary, kind, theme = "blue", extra, photo,
+  crumbs, title, text, cta, secondary, kind, theme = "blue", extra, photo, service,
 }: {
   crumbs: { name: string; path: string }[];
   title: ReactNode;
@@ -25,6 +26,7 @@ export function PageHero({
   theme?: keyof typeof themes;
   extra?: ReactNode;
   photo?: PhotoKey;
+  service?: (typeof SERVICE_OPTIONS)[number];
 }) {
   return (
     <section className={`relative overflow-hidden bg-gradient-to-br ${themes[theme]} pb-16 pt-[calc(var(--header-h)+32px)] text-white sm:pb-24`}>
@@ -47,7 +49,7 @@ export function PageHero({
             <p className="mt-5 max-w-2xl text-lg text-blue-50/90">{text}</p>
             {(cta || secondary) && (
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                {cta && <Button href={cta.href} variant="light">{cta.label}</Button>}
+                {cta && <Button href={cta.href} variant="light" service={service}>{cta.label}</Button>}
                 {secondary && <Button href={secondary.href} variant="ghost" className="!border !border-white/40 !text-white hover:!bg-white/10">{secondary.label}</Button>}
               </div>
             )}

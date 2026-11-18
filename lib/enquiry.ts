@@ -23,3 +23,12 @@ export const enquirySchema = z.object({
 
 export type EnquiryInput = z.input<typeof enquirySchema>;
 export type EnquiryData = z.output<typeof enquirySchema>;
+
+/** Shorter schema used by the quick-enquiry modal (same field rules as the contact page). */
+export const quickEnquirySchema = enquirySchema
+  .pick({ name: true, email: true, mobile: true, service: true, consent: true, website: true })
+  .extend({
+    requirements: z.preprocess(clean, z.string().min(10, "Please tell us a little more (at least 10 characters).").max(1000, "Please keep it under 1000 characters.")),
+  });
+export type QuickEnquiryInput = z.input<typeof quickEnquirySchema>;
+export type QuickEnquiryData = z.output<typeof quickEnquirySchema>;

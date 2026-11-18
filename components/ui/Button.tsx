@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { EnquiryLink } from "./EnquiryLink";
+import type { SERVICE_OPTIONS } from "@/lib/site";
 import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -20,25 +22,25 @@ export function Button({
   variant = "primary",
   arrow = true,
   className = "",
+  service,
 }: {
   href: string;
   children: ReactNode;
   variant?: Variant;
   arrow?: boolean;
   className?: string;
+  service?: (typeof SERVICE_OPTIONS)[number];
 }) {
-  return (
-    <Link
-      href={href}
-      className={`group inline-flex min-h-12 items-center justify-center gap-2 rounded-lg px-6 py-3 text-[0.97rem] font-medium transition duration-200 ${styles[variant]} ${className}`}
-    >
+  const cls = `group inline-flex min-h-12 items-center justify-center gap-2 rounded-lg px-6 py-3 text-[0.97rem] font-medium transition duration-200 ${styles[variant]} ${className}`;
+  const content = (
+    <>
       {children}
-      {arrow && (
-        <ArrowRight
-          className="size-4 transition-transform duration-200 group-hover:translate-x-1"
-          aria-hidden
-        />
-      )}
-    </Link>
+      {arrow && <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden />}
+    </>
+  );
+  return href === "/contact-us" ? (
+    <EnquiryLink className={cls} service={service}>{content}</EnquiryLink>
+  ) : (
+    <Link href={href} className={cls}>{content}</Link>
   );
 }

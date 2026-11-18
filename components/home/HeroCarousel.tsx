@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Mockup, type MockupKind } from "@/components/visuals/Mockups";
+import { EnquiryLink } from "@/components/ui/EnquiryLink";
 import { Photo } from "@/components/ui/Photo";
 import type { PhotoKey } from "@/lib/photos";
 
@@ -96,13 +97,17 @@ export function HeroCarousel() {
                 </p>
                 <h2 className="!text-white" style={{ fontSize: "clamp(2.125rem, 1.4rem + 3vw, 3.75rem)", lineHeight: 1.1 }}>{s.title}</h2>
                 <p className="mt-5 max-w-xl text-lg text-blue-50/90">{s.text}</p>
-                <Link
-                  href={s.href}
-                  className="group mt-8 inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 py-3 font-medium text-brand shadow-[0_12px_28px_-10px_rgb(0_0_0/0.5)] transition hover:-translate-y-0.5"
-                >
+                {s.href === "/contact-us" ? (
+                  <EnquiryLink className="group mt-8 inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 py-3 font-medium text-brand shadow-[0_12px_28px_-10px_rgb(0_0_0/0.5)] transition hover:-translate-y-0.5">
                   {s.cta}
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
-                </Link>
+                  </EnquiryLink>
+                ) : (
+                  <Link href={s.href} className="group mt-8 inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 py-3 font-medium text-brand shadow-[0_12px_28px_-10px_rgb(0_0_0/0.5)] transition hover:-translate-y-0.5">
+                  {s.cta}
+                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
+                  </Link>
+                )}
               </div>
               <div className="relative mx-auto hidden w-full max-w-[560px] pb-10 sm:block lg:pb-0">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-[0_30px_60px_-20px_rgb(0_0_0/0.6)] ring-1 ring-white/30">

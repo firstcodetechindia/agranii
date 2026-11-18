@@ -3,6 +3,9 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ScrollTopButton } from "@/components/layout/ScrollTopButton";
+import { EnquiryProvider } from "@/components/providers/EnquiryModal";
+import { Preloader } from "@/components/layout/Preloader";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { SITE } from "@/lib/site";
@@ -37,6 +40,7 @@ const orgLd = [
     "@type": "Organization",
     name: SITE.name,
     url: SITE.url,
+    logo: `${SITE.url}/brand/logo.png`,
     slogan: SITE.tagline,
     description: SITE.description,
     ...(SITE.contact.email ? { email: SITE.contact.email } : {}),
@@ -57,10 +61,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body suppressHydrationWarning>
         <script dangerouslySetInnerHTML={{ __html: "if('scrollRestoration' in history)history.scrollRestoration='manual';if(!location.hash)window.scrollTo(0,0);" }} />
         <JsonLd data={orgLd} />
+        <noscript><style>{'[aria-label="Loading AGRANII"]{display:none!important}'}</style></noscript>
+        <Preloader />
         <ScrollToTop />
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
+        <EnquiryProvider>
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+          <ScrollTopButton />
+        </EnquiryProvider>
       </body>
     </html>
   );

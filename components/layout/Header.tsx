@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { NAV } from "@/lib/site";
 import { Logo } from "./Logo";
+import { EnquiryLink } from "@/components/ui/EnquiryLink";
 
 export function Header() {
   const pathname = usePathname();
@@ -48,7 +49,7 @@ export function Header() {
         Skip to content
       </a>
       <div className="container-x flex h-[var(--header-h)] items-center justify-between gap-6">
-        <Logo light={lightText} />
+        <Logo light={lightText} priority />
         <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {NAV.map((n) => (
@@ -72,12 +73,9 @@ export function Header() {
           </ul>
         </nav>
         <div className="flex items-center gap-3">
-          <Link
-            href="/contact-us"
-            className="hidden min-h-11 items-center whitespace-nowrap rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-5 text-[0.93rem] font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 sm:inline-flex"
-          >
+          <EnquiryLink className="hidden min-h-11 items-center whitespace-nowrap rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-5 text-[0.93rem] font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 sm:inline-flex">
             Discuss Your Project
-          </Link>
+          </EnquiryLink>
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -118,13 +116,9 @@ export function Header() {
                   </li>
                 ))}
               </ul>
-              <Link
-                href="/contact-us"
-                onClick={() => setOpen(false)}
-                className="mt-5 flex min-h-12 items-center justify-center rounded-lg bg-brand font-medium text-white"
-              >
+              <EnquiryLink onNavigate={() => setOpen(false)} className="mt-5 flex min-h-12 items-center justify-center rounded-lg bg-brand font-medium text-white">
                 Discuss Your Project
-              </Link>
+              </EnquiryLink>
             </nav>
           </motion.div>
         )}

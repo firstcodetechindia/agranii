@@ -4,10 +4,11 @@ import Link from "next/link";
 import { Check, ShieldCheck } from "lucide-react";
 import { buildMetadata, serviceLd } from "@/lib/seo";
 import { LANDINGS } from "@/lib/services";
+import { SERVICE_BY_PATH } from "@/lib/site";
 import { PageHero } from "@/components/sections/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CtaBand } from "@/components/sections/CtaBand";
-import { Faq } from "@/components/ui/Faq";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { JsonLd } from "@/components/ui/JsonLd";
 
 export const dynamicParams = false;
@@ -42,6 +43,7 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
         secondary={{ label: `All ${isComm ? "communication services" : "custom software"}`, href: parent.path }}
         kind={l.kind}
         photo={l.photo}
+        service={SERVICE_BY_PATH[`/${l.slug}`]}
       />
 
       <section className="container-x grid gap-10 py-16 sm:py-24 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
@@ -81,12 +83,9 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
 
-      <section className="container-x pb-8">
-        <SectionHeading label="FAQ" title={`${l.crumb}: Common Questions.`} />
-        <div className="mt-8 max-w-4xl"><Faq items={l.faqs} /></div>
-      </section>
+      <FaqSection title={`${l.crumb}: Common Questions.`} items={l.faqs} service={SERVICE_BY_PATH[`/${l.slug}`]} />
 
-      <CtaBand title={`Interested in ${l.crumb}?`} text="Share your requirements and our team will get back to you to discuss the right approach." primary={{ label: l.enquiry, href: "/contact-us" }} secondary={null} />
+      <CtaBand title={`Interested in ${l.crumb}?`} text="Share your requirements and our team will get back to you to discuss the right approach." primary={{ label: l.enquiry, href: "/contact-us" }} secondary={null} service={SERVICE_BY_PATH[`/${l.slug}`]} />
     </>
   );
 }

@@ -64,3 +64,16 @@ export const SERVICE_OPTIONS = [
   "Partnership",
   "Other",
 ] as const;
+
+/** Pre-selects the right service in the enquiry modal for each page-specific CTA. */
+export const SERVICE_BY_PATH: Record<string, (typeof SERVICE_OPTIONS)[number]> = {
+  "/hospital-management-software-jaipur": "Hospital Management Software",
+  "/jewellery-software-jaipur": "Jewellery Management Software",
+  "/employee-management-software": "Employee Management Software",
+  "/hotel-management-software-jaipur": "Hotel Management Software",
+  "/bulk-whatsapp-service-jaipur": "Bulk WhatsApp Service",
+  "/bulk-sms-service-jaipur": "Bulk SMS Service",
+  "/bulk-voice-call-service": "Bulk Voice Call Service",
+  "/bulk-email-service": "Bulk Email Service",
+  "/custom-software": "Custom Software Development",
+};

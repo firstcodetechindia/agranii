@@ -17,10 +17,12 @@ export function buildMetadata(opts: {
       url,
       siteName: SITE.name,
       type: "website",
+      images: [{ url: `${SITE.url}/brand/logo.png`, alt: SITE.name }],
       locale: "en_IN",
     },
     twitter: {
       card: "summary_large_image",
+      images: [`${SITE.url}/brand/logo.png`],
       title: opts.title,
       description: opts.description,
     },

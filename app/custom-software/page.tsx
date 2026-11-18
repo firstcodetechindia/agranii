@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ServiceDetail } from "@/components/sections/ServiceDetail";
 import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
 import { CtaBand } from "@/components/sections/CtaBand";
-import { Faq } from "@/components/ui/Faq";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { JsonLd } from "@/components/ui/JsonLd";
 
 export const metadata = buildMetadata({
@@ -74,10 +74,7 @@ export default function CustomSoftwarePage() {
 
       <ProcessTimeline title="Our Delivery Process, Step by Step." />
 
-      <section className="container-x pb-8">
-        <SectionHeading label="FAQ" title="Custom Software Questions Answered." />
-        <div className="mt-8 max-w-4xl"><Faq items={SOFTWARE_FAQS} /></div>
-      </section>
+      <FaqSection title="Custom Software Questions Answered." items={SOFTWARE_FAQS} service="Custom Software Development" />
 
       <CtaBand title="Looking for Software That Fits Your Business?" text="Let's discuss your requirements and explore the right software solution." primary={{ label: "Start Your Project Discussion", href: "/contact-us" }} secondary={null} />
     </>

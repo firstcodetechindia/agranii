@@ -5,6 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Mockup } from "@/components/visuals/Mockups";
 import { Photo } from "@/components/ui/Photo";
 import type { Detail } from "@/lib/services";
+import { SERVICE_BY_PATH } from "@/lib/site";
 
 export function ServiceDetail({ d, flip, children }: { d: Detail; flip?: boolean; children?: ReactNode }) {
   return (
@@ -48,7 +49,7 @@ export function ServiceDetail({ d, flip, children }: { d: Detail; flip?: boolean
         {d.note && <p className="mt-6 rounded-xl border-l-4 border-cyan bg-cyan/5 p-4 text-[0.95rem]">{d.note}</p>}
         {children}
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href={d.cta.href}>{d.cta.label}</Button>
+          <Button href={d.cta.href} service={SERVICE_BY_PATH[d.landing]}>{d.cta.label}</Button>
           <Button href={d.landing} variant="secondary" arrow={false}>Learn more</Button>
         </div>
       </Reveal>

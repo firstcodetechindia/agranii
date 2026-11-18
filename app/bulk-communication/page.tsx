@@ -6,7 +6,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ServiceDetail } from "@/components/sections/ServiceDetail";
 import { CtaBand } from "@/components/sections/CtaBand";
-import { Faq } from "@/components/ui/Faq";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -95,10 +95,7 @@ export default function BulkCommunicationPage() {
 
       <CtaBand title="Let's Find the Right Communication Solution for Your Business." text="Tell us what you need to send and to whom, and we will suggest the right mix of channels." primary={{ label: "Talk to Our Team", href: "/contact-us" }} secondary={null} />
 
-      <section className="container-x pb-8">
-        <SectionHeading label="FAQ" title="Communication Services Questions Answered." />
-        <div className="mt-8 max-w-4xl"><Faq items={COMM_FAQS} /></div>
-      </section>
+      <FaqSection title="Communication Services Questions Answered." items={COMM_FAQS} />
     </>
   );
 }

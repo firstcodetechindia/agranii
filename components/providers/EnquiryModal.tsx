@@ -16,7 +16,7 @@ type Ctx = { open: (opts?: { service?: Service }) => void };
 const EnquiryCtx = createContext<Ctx>({ open: () => {} });
 export const useEnquiry = () => useContext(EnquiryCtx);
 
-const field = "mt-1.5 w-full rounded-lg border border-line bg-white px-4 py-3 text-[1rem] text-navy placeholder:text-slate-400 transition focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/15 aria-[invalid=true]:border-red-500";
+const field = "mt-2 w-full rounded-lg border-2 border-slate-300 bg-slate-50 px-4 py-3 text-[1rem] text-navy placeholder:text-slate-500 shadow-sm transition hover:border-slate-400 focus:border-brand focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand/20 aria-[invalid=true]:border-red-500 aria-[invalid=true]:bg-red-50/40";
 
 export function EnquiryProvider({ children }: { children: ReactNode }) {
   const [isOpen, setOpen] = useState(false);
@@ -89,7 +89,7 @@ function Modal({ service, onClose }: { service?: Service; onClose: () => void })
     if (CAPTCHA_ENABLED && !token) { setCapErr(true); return; }
     setCapErr(false);
     try {
-      const res = await fetch(SITE.enquiryEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...data, turnstileToken: token }) });
+      const res = await fetch(SITE.enquiryEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...data, captcha: token }) });
       const json = await res.json().catch(() => ({}));
       if (res.ok && json.ok) { setState("ok"); return; }
       setFailMsg(json.message ?? "Something went wrong. Please try again.");
@@ -139,24 +139,24 @@ function Modal({ service, onClose }: { service?: Service; onClose: () => void })
           <form onSubmit={handleSubmit(onSubmit)} noValidate aria-busy={isSubmitting} className="space-y-4 px-6 py-6 sm:px-8">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="q-name" className="text-sm font-medium text-navy">Full Name <span className="text-red-600" aria-hidden>*</span></label>
+                <label htmlFor="q-name" className="text-sm font-semibold text-navy">Full Name <span className="text-red-600" aria-hidden>*</span></label>
                 <input id="q-name" autoFocus autoComplete="name" className={field} {...e("name")} {...register("name")} />
                 {errors.name && <p id="q-name-err" role="alert" className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
               </div>
               <div>
-                <label htmlFor="q-mobile" className="text-sm font-medium text-navy">Mobile Number <span className="text-red-600" aria-hidden>*</span></label>
+                <label htmlFor="q-mobile" className="text-sm font-semibold text-navy">Mobile Number <span className="text-red-600" aria-hidden>*</span></label>
                 <input id="q-mobile" type="tel" inputMode="numeric" autoComplete="tel-national" maxLength={14} placeholder="10-digit mobile" className={field}
                   {...e("mobile")} {...register("mobile", { onChange: (ev) => { ev.target.value = ev.target.value.replace(/[^\d+\s-]/g, ""); } })} />
                 {errors.mobile && <p id="q-mobile-err" role="alert" className="mt-1 text-sm text-red-600">{errors.mobile.message}</p>}
               </div>
             </div>
             <div>
-              <label htmlFor="q-email" className="text-sm font-medium text-navy">Email Address <span className="text-red-600" aria-hidden>*</span></label>
+              <label htmlFor="q-email" className="text-sm font-semibold text-navy">Email Address <span className="text-red-600" aria-hidden>*</span></label>
               <input id="q-email" type="email" autoComplete="email" className={field} {...e("email")} {...register("email")} />
               {errors.email && <p id="q-email-err" role="alert" className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
             </div>
             <div>
-              <label htmlFor="q-service" className="text-sm font-medium text-navy">Service Interested In <span className="text-red-600" aria-hidden>*</span></label>
+              <label htmlFor="q-service" className="text-sm font-semibold text-navy">Service Interested In <span className="text-red-600" aria-hidden>*</span></label>
               <select id="q-service" className={field} defaultValue={service ?? ""} {...e("service")} {...register("service")}>
                 <option value="" disabled>Select a service</option>
                 {SERVICE_OPTIONS.map((s) => <option key={s}>{s}</option>)}
@@ -164,7 +164,7 @@ function Modal({ service, onClose }: { service?: Service; onClose: () => void })
               {errors.service && <p id="q-service-err" role="alert" className="mt-1 text-sm text-red-600">{errors.service.message}</p>}
             </div>
             <div>
-              <label htmlFor="q-requirements" className="text-sm font-medium text-navy">Your Query <span className="text-red-600" aria-hidden>*</span></label>
+              <label htmlFor="q-requirements" className="text-sm font-semibold text-navy">Your Query <span className="text-red-600" aria-hidden>*</span></label>
               <textarea id="q-requirements" rows={4} className={field} placeholder="Briefly describe your requirement." {...e("requirements")} {...register("requirements")} />
               {errors.requirements && <p id="q-requirements-err" role="alert" className="mt-1 text-sm text-red-600">{errors.requirements.message}</p>}
             </div>
@@ -177,8 +177,8 @@ function Modal({ service, onClose }: { service?: Service; onClose: () => void })
               {errors.consent && <p id="q-consent-err" role="alert" className="mt-1 text-sm text-red-600">{errors.consent.message}</p>}
             </div>
             <div>
-              <Captcha onToken={(t) => { setToken(t); if (t) setCapErr(false); }} resetKey={capKey} />
-              {capErr && <p role="alert" className="mt-1.5 text-sm text-red-600">Please complete the verification above.</p>}
+              <Captcha key={capKey} onToken={(t) => { setToken(t); if (t) setCapErr(false); }} />
+              {capErr && <p role="alert" className="mt-1.5 text-sm text-red-600">Please answer the maths question above.</p>}
             </div>
             {state === "fail" && <p role="alert" className="flex items-start gap-2 rounded-lg bg-red-50 p-3 text-[0.95rem] text-red-700"><AlertCircle className="mt-0.5 size-5 shrink-0" aria-hidden />{failMsg}</p>}
             <button type="submit" disabled={isSubmitting} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-6 py-3 font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70">

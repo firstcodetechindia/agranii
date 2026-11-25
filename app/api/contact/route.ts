@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
 import { enquirySchema } from "@/lib/enquiry";
+import { makeChallenge, verifyCaptcha } from "@/lib/captcha";
+
+/** GET /api/contact?captcha=1 -> a fresh maths question with its signed token. */
+export async function GET(req: Request) {
+  if (new URL(req.url).searchParams.get("captcha") !== "1") return NextResponse.json({ ok: false }, { status: 404 });
+  return NextResponse.json(makeChallenge(), { headers: { "Cache-Control": "no-store" } });
+}
 
 /**
  * Enquiry endpoint. It validates server-side and forwards to ENQUIRY_WEBHOOK_URL.
@@ -12,23 +19,9 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json({ ok: false, message: "Invalid request." }, { status: 400 });
   }
-  // Captcha (Cloudflare Turnstile). Enforced whenever TURNSTILE_SECRET_KEY is set.
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (secret) {
-    const token = typeof (body as { turnstileToken?: unknown })?.turnstileToken === "string" ? (body as { turnstileToken: string }).turnstileToken : "";
-    let ok = false;
-    if (token) {
-      try {
-        const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-        const vr = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-          method: "POST",
-          body: new URLSearchParams({ secret, response: token, ...(ip ? { remoteip: ip } : {}) }),
-          signal: AbortSignal.timeout(8_000),
-        });
-        ok = Boolean(((await vr.json()) as { success?: boolean }).success);
-      } catch { ok = false; }
-    }
-    if (!ok) return NextResponse.json({ ok: false, message: "Verification failed. Please try again." }, { status: 400 });
+  // Math captcha (always on). Stateless signed token, see lib/captcha.ts.
+  if (!verifyCaptcha((body as { captcha?: unknown })?.captcha)) {
+    return NextResponse.json({ ok: false, message: "Incorrect answer to the maths question. Please try the new one." }, { status: 400 });
   }
 
   const parsed = enquirySchema.safeParse(body);

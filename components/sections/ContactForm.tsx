@@ -10,12 +10,12 @@ import { SERVICE_OPTIONS, SITE } from "@/lib/site";
 import { PREFETCH } from "@/lib/asset";
 
 const BUDGETS = ["Not sure yet", "Under ₹50,000", "₹50,000 – ₹2,00,000", "₹2,00,000 – ₹5,00,000", "Above ₹5,00,000"];
-const input = "mt-1.5 w-full rounded-lg border border-line bg-white px-4 py-3 text-[1rem] text-navy placeholder:text-slate-400 transition focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/15 aria-[invalid=true]:border-red-500";
+const input = "mt-2 w-full rounded-lg border-2 border-slate-300 bg-slate-50 px-4 py-3 text-[1rem] text-navy placeholder:text-slate-500 shadow-sm transition hover:border-slate-400 focus:border-brand focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand/20 aria-[invalid=true]:border-red-500 aria-[invalid=true]:bg-red-50/40";
 
 function Field({ id, label, required, error, children }: { id: string; label: string; required?: boolean; error?: string; children: React.ReactNode }) {
   return (
     <div>
-      <label htmlFor={id} className="text-sm font-medium text-navy">{label}{required && <span className="text-red-600" aria-hidden> *</span>}</label>
+      <label htmlFor={id} className="text-sm font-semibold text-navy">{label}{required && <span className="text-red-600" aria-hidden> *</span>}</label>
       {children}
       {error && <p id={`${id}-err`} role="alert" className="mt-1.5 text-sm text-red-600">{error}</p>}
     </div>
@@ -41,7 +41,7 @@ export function ContactForm() {
     if (CAPTCHA_ENABLED && !token) { setCapErr(true); return; }
     setCapErr(false);
     try {
-      const res = await fetch(SITE.enquiryEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...data, turnstileToken: token }) });
+      const res = await fetch(SITE.enquiryEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...data, captcha: token }) });
       const json = await res.json().catch(() => ({}));
       if (res.ok && json.ok) { setState("ok"); reset(); setToken(""); setCapKey((k) => k + 1); return; }
       setFailMsg(json.message ?? "Something went wrong.");
@@ -66,7 +66,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate aria-busy={isSubmitting} className="space-y-5 rounded-2xl border border-line bg-white p-6 shadow-soft sm:p-8">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate aria-busy={isSubmitting} className="space-y-5 rounded-2xl border-2 border-slate-200 bg-white p-6 shadow-lift sm:p-8">
       <div className="grid gap-5 sm:grid-cols-2">
         <Field id="name" label="Full Name" required error={errors.name?.message}>
           <input id="name" autoComplete="name" className={input} {...e("name")} {...register("name")} />
@@ -112,8 +112,8 @@ export function ContactForm() {
         <p role="alert" className="flex items-start gap-2 rounded-lg bg-red-50 p-3 text-[0.95rem] text-red-700"><AlertCircle className="mt-0.5 size-5 shrink-0" aria-hidden />{failMsg}</p>
       )}
       <div>
-        <Captcha onToken={(t) => { setToken(t); if (t) setCapErr(false); }} resetKey={capKey} />
-        {capErr && <p role="alert" className="mt-1.5 text-sm text-red-600">Please complete the verification above.</p>}
+        <Captcha key={capKey} onToken={(t) => { setToken(t); if (t) setCapErr(false); }} />
+        {capErr && <p role="alert" className="mt-1.5 text-sm text-red-600">Please answer the maths question above.</p>}
       </div>
 <button type="submit" disabled={isSubmitting} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-6 py-3 font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto">
         {isSubmitting ? <><Loader2 className="size-4 animate-spin" aria-hidden />Submitting…</> : "Submit Enquiry"}

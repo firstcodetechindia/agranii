@@ -26,8 +26,6 @@ export const SITE = {
   },
   /** Endpoint the enquiry form posts to. */
   enquiryEndpoint: process.env.NEXT_PUBLIC_ENQUIRY_ENDPOINT ?? "/api/contact",
-  /** Cloudflare Turnstile site key (public). Empty = captcha off. */
-  turnstileSiteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "",
 } as const;
 
 export const NAV = [

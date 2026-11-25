@@ -11,7 +11,7 @@ export const SITE = {
   description:
     "Agranii provides custom software development, hospital management software, jewellery software, hotel management software and business communication services.",
   contact: {
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "help@agranii.in",
     phone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "+919694082182",
     whatsapp: process.env.NEXT_PUBLIC_CONTACT_WHATSAPP ?? "+919694082182",
     address: process.env.NEXT_PUBLIC_CONTACT_ADDRESS ?? "",

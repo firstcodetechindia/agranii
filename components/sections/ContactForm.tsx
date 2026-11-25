@@ -6,8 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { enquirySchema, type EnquiryInput, type EnquiryData } from "@/lib/enquiry";
-import { SERVICE_OPTIONS, SITE, whatsappLink } from "@/lib/site";
-import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { SERVICE_OPTIONS, SITE } from "@/lib/site";
 import { PREFETCH } from "@/lib/asset";
 
 const BUDGETS = ["Not sure yet", "Under ₹50,000", "₹50,000 – ₹2,00,000", "₹2,00,000 – ₹5,00,000", "Above ₹5,00,000"];
@@ -116,17 +115,9 @@ export function ContactForm() {
         <Captcha onToken={(t) => { setToken(t); if (t) setCapErr(false); }} resetKey={capKey} />
         {capErr && <p role="alert" className="mt-1.5 text-sm text-red-600">Please complete the verification above.</p>}
       </div>
-<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <button type="submit" disabled={isSubmitting} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-6 py-3 font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto">
+<button type="submit" disabled={isSubmitting} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-6 py-3 font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto">
         {isSubmitting ? <><Loader2 className="size-4 animate-spin" aria-hidden />Submitting…</> : "Submit Enquiry"}
       </button>
-      {SITE.contact.whatsapp && (
-        <a href={whatsappLink("Hello AGRANII, I would like to discuss my requirements.")} target="_blank" rel="noopener noreferrer"
-          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-6 py-3 font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_211_102/0.7)] transition hover:-translate-y-0.5 hover:bg-[#1ebe5b] sm:w-auto">
-          <WhatsAppIcon className="size-5" />Chat on WhatsApp
-        </a>
-      )}
-      </div>
       <p className="text-sm">Your information will be used only to respond to your enquiry and handle your business request, in accordance with the <Link prefetch={PREFETCH} href="/privacy-policy" className="text-brand underline">Privacy Policy</Link>.</p>
     </form>
   );

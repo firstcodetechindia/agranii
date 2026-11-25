@@ -1,6 +1,7 @@
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
-import { SITE } from "@/lib/site";
+import { SITE, whatsappLink } from "@/lib/site";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { PageHero } from "@/components/sections/PageHero";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -17,7 +18,6 @@ export default function ContactPage() {
   const items = [
     { icon: Mail, label: "Business Email", value: c.email, href: c.email && `mailto:${c.email}` },
     { icon: Phone, label: "Phone Number", value: c.phone, href: c.phone && `tel:${c.phone}` },
-    { icon: MessageCircle, label: "WhatsApp", value: c.whatsapp, href: c.whatsapp && `https://wa.me/${c.whatsapp.replace(/\D/g, "")}` },
     { icon: MapPin, label: "Office Address", value: c.address, href: "" },
   ];
   return (
@@ -32,6 +32,23 @@ export default function ContactPage() {
         <div>
           <SectionHeading as="h2" title="Please Connect for Working With Us." description="We are open to discussing software development projects, business requirements, technology collaborations and partnership opportunities." />
           <ul className="mt-8 space-y-4">
+            {c.whatsapp && (
+              <li>
+                <a
+                  href={whatsappLink("Hello AGRANII, I would like to discuss my requirements.")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 rounded-xl bg-[#25D366] p-4 text-white shadow-[0_12px_28px_-10px_rgb(37_211_102/0.7)] transition hover:-translate-y-0.5 hover:bg-[#1ebe5b]"
+                >
+                  <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-white text-[#25D366] transition group-hover:scale-105"><WhatsAppIcon className="size-7" /></span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-medium text-white/90">Chat on WhatsApp</span>
+                    <span className="block text-lg font-semibold">{c.whatsapp}</span>
+                  </span>
+                  <span aria-hidden className="ml-auto text-2xl transition-transform group-hover:translate-x-1">→</span>
+                </a>
+              </li>
+            )}
             {items.map(({ icon: Icon, label, value, href }) => (
               <li key={label} className="flex items-start gap-4 rounded-xl border border-line bg-white p-4 shadow-soft">
                 <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-blue-50 text-brand"><Icon className="size-5" aria-hidden /></span>

@@ -7,8 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { AlertCircle, CheckCircle2, Loader2, X } from "lucide-react";
 import { quickEnquirySchema, type QuickEnquiryData, type QuickEnquiryInput } from "@/lib/enquiry";
-import { SERVICE_OPTIONS, SITE, whatsappLink } from "@/lib/site";
-import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { SERVICE_OPTIONS, SITE } from "@/lib/site";
 import { Captcha, CAPTCHA_ENABLED } from "@/components/ui/Captcha";
 import { PREFETCH } from "@/lib/asset";
 
@@ -185,12 +184,6 @@ function Modal({ service, onClose }: { service?: Service; onClose: () => void })
             <button type="submit" disabled={isSubmitting} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-6 py-3 font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70">
               {isSubmitting ? <><Loader2 className="size-4 animate-spin" aria-hidden />Submitting…</> : "Submit Enquiry"}
             </button>
-            {SITE.contact.whatsapp && (
-              <a href={whatsappLink("Hello AGRANII, I would like to discuss my requirements.")} target="_blank" rel="noopener noreferrer"
-                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-6 py-3 font-medium text-white transition hover:bg-[#1ebe5b]">
-                <WhatsAppIcon className="size-5" />Or chat on WhatsApp
-              </a>
-            )}
           </form>
         )}
       </motion.div>

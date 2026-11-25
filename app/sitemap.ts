@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 import { LANDINGS } from "@/lib/services";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const primary = ["", "/custom-software", "/bulk-communication", "/about-us", "/contact-us"];
   const rest = [...LANDINGS.map((l) => `/${l.slug}`), "/privacy-policy", "/terms-and-conditions"];

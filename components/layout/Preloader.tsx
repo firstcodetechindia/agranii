@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -53,7 +54,7 @@ export function Preloader() {
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                 className="relative"
               >
-                <Image src="/brand/mark.webp" alt="" width={192} height={135} priority className="h-[58px] w-auto" />
+                <Image src={asset("/brand/mark.webp")} alt="" width={192} height={135} priority className="h-[58px] w-auto" />
               </motion.div>
             </div>
             <motion.p

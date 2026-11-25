@@ -5,6 +5,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { CHANNELS } from "@/lib/content";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Button } from "@/components/ui/Button";
+import { PREFETCH } from "@/lib/asset";
 
 const tints = ["from-emerald-400 to-cyan", "from-brand to-cyan", "from-violet to-brand", "from-amber-400 to-violet"];
 
@@ -48,7 +49,7 @@ export function CommsSection() {
                   <ul className="mt-4 flex-1 space-y-2 text-[0.93rem]">
                     {c.uses.map((u) => <li key={u} className="flex gap-2 text-blue-50/90"><CheckCircle2 className="mt-1 size-4 shrink-0 text-cyan" aria-hidden />{u}</li>)}
                   </ul>
-                  <Link href={c.href} className="group/l mt-6 inline-flex items-center gap-1.5 font-medium text-cyan-200 hover:text-white">
+                  <Link prefetch={PREFETCH} href={c.href} className="group/l mt-6 inline-flex items-center gap-1.5 font-medium text-cyan-200 hover:text-white">
                     Learn More <ArrowRight className="size-4 transition-transform group-hover/l:translate-x-1.5" aria-hidden />
                   </Link>
                 </div>

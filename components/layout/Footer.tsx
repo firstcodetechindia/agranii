@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { FOOTER_COMMS, FOOTER_SOFTWARE, SITE } from "@/lib/site";
 import { Logo } from "./Logo";
 import { Reveal } from "@/components/ui/Reveal";
+import { PREFETCH } from "@/lib/asset";
 
 const COMPANY = [
   { label: "Home", href: "/" },
@@ -28,7 +29,7 @@ function LinkColumn({ title, links }: { title: string; links: readonly { label: 
       <ul className="mt-5 space-y-3">
         {links.map((l) => (
           <li key={l.href}>
-            <Link href={l.href} className="group inline-flex items-center gap-1.5 text-[0.97rem] text-slate-300 transition-all duration-300 hover:translate-x-1.5 hover:text-white">
+            <Link prefetch={PREFETCH} href={l.href} className="group inline-flex items-center gap-1.5 text-[0.97rem] text-slate-300 transition-all duration-300 hover:translate-x-1.5 hover:text-white">
               <span className="relative">
                 {l.label}
                 <span aria-hidden className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-cyan to-violet transition-all duration-300 group-hover:w-full" />
@@ -123,8 +124,8 @@ export function Footer() {
         <div className="container-x flex flex-col gap-4 py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
           <p>Copyright © 2026 AGRANII. All Rights Reserved.</p>
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <li><Link href="/privacy-policy" className="transition hover:text-white">Privacy Policy</Link></li>
-            <li><Link href="/terms-and-conditions" className="transition hover:text-white">Terms and Conditions</Link></li>
+            <li><Link prefetch={PREFETCH} href="/privacy-policy" className="transition hover:text-white">Privacy Policy</Link></li>
+            <li><Link prefetch={PREFETCH} href="/terms-and-conditions" className="transition hover:text-white">Terms and Conditions</Link></li>
           </ul>
         </div>
       </div>

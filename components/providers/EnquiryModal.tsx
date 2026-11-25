@@ -7,7 +7,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { AlertCircle, CheckCircle2, Loader2, X } from "lucide-react";
 import { quickEnquirySchema, type QuickEnquiryData, type QuickEnquiryInput } from "@/lib/enquiry";
-import { SERVICE_OPTIONS, SITE } from "@/lib/site";
+import { SERVICE_OPTIONS, SITE, whatsappLink } from "@/lib/site";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { Captcha, CAPTCHA_ENABLED } from "@/components/ui/Captcha";
+import { PREFETCH } from "@/lib/asset";
 
 type Service = (typeof SERVICE_OPTIONS)[number];
 type Ctx = { open: (opts?: { service?: Service }) => void };
@@ -34,6 +37,12 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(() => ({ open }), [open]);
+
+  // Lets the static header/footer (plain HTML files) open this pop-up.
+  useEffect(() => {
+    (window as unknown as { __openEnquiry?: typeof open }).__openEnquiry = open;
+    return () => { delete (window as unknown as { __openEnquiry?: typeof open }).__openEnquiry; };
+  }, [open]);
   return (
     <EnquiryCtx.Provider value={value}>
       {children}
@@ -49,6 +58,9 @@ function Modal({ service, onClose }: { service?: Service; onClose: () => void })
   const panel = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<"idle" | "ok" | "fail">("idle");
   const [failMsg, setFailMsg] = useState("");
+  const [token, setToken] = useState("");
+  const [capKey, setCapKey] = useState(0);
+  const [capErr, setCapErr] = useState(false);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<QuickEnquiryInput, unknown, QuickEnquiryData>({
     resolver: zodResolver(quickEnquirySchema),
     mode: "onTouched",
@@ -75,15 +87,19 @@ function Modal({ service, onClose }: { service?: Service; onClose: () => void })
 
   async function onSubmit(data: QuickEnquiryData) {
     setState("idle");
+    if (CAPTCHA_ENABLED && !token) { setCapErr(true); return; }
+    setCapErr(false);
     try {
-      const res = await fetch(SITE.enquiryEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      const res = await fetch(SITE.enquiryEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...data, turnstileToken: token }) });
       const json = await res.json().catch(() => ({}));
       if (res.ok && json.ok) { setState("ok"); return; }
       setFailMsg(json.message ?? "Something went wrong. Please try again.");
       setState("fail");
+      setToken(""); setCapKey((k) => k + 1);
     } catch {
       setFailMsg("Network error. Please check your connection and try again.");
       setState("fail");
+      setToken(""); setCapKey((k) => k + 1);
     }
   }
 
@@ -157,14 +173,24 @@ function Modal({ service, onClose }: { service?: Service; onClose: () => void })
             <div>
               <label className="flex items-start gap-3 text-[0.93rem]">
                 <input type="checkbox" className="mt-1 size-5 shrink-0 accent-[#2563eb]" {...e("consent")} {...register("consent")} />
-                <span>I agree to the <Link href="/privacy-policy" onClick={onClose} className="font-medium text-brand underline">Privacy Policy</Link>. <span className="text-red-600" aria-hidden>*</span></span>
+                <span>I agree to the <Link prefetch={PREFETCH} href="/privacy-policy" onClick={onClose} className="font-medium text-brand underline">Privacy Policy</Link>. <span className="text-red-600" aria-hidden>*</span></span>
               </label>
               {errors.consent && <p id="q-consent-err" role="alert" className="mt-1 text-sm text-red-600">{errors.consent.message}</p>}
+            </div>
+            <div>
+              <Captcha onToken={(t) => { setToken(t); if (t) setCapErr(false); }} resetKey={capKey} />
+              {capErr && <p role="alert" className="mt-1.5 text-sm text-red-600">Please complete the verification above.</p>}
             </div>
             {state === "fail" && <p role="alert" className="flex items-start gap-2 rounded-lg bg-red-50 p-3 text-[0.95rem] text-red-700"><AlertCircle className="mt-0.5 size-5 shrink-0" aria-hidden />{failMsg}</p>}
             <button type="submit" disabled={isSubmitting} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-6 py-3 font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70">
               {isSubmitting ? <><Loader2 className="size-4 animate-spin" aria-hidden />Submitting…</> : "Submit Enquiry"}
             </button>
+            {SITE.contact.whatsapp && (
+              <a href={whatsappLink("Hello AGRANII, I would like to discuss my requirements.")} target="_blank" rel="noopener noreferrer"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-6 py-3 font-medium text-white transition hover:bg-[#1ebe5b]">
+                <WhatsAppIcon className="size-5" />Or chat on WhatsApp
+              </a>
+            )}
           </form>
         )}
       </motion.div>

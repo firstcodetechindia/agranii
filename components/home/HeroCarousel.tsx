@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight, Factory, GraduationCap, Hospital, Hotel, MessageCircle, MessageSquareText, type LucideIcon } from "lucide-react";
 import { SlideScene } from "./SlideScenes";
 import { EnquiryLink } from "@/components/ui/EnquiryLink";
+import { PREFETCH } from "@/lib/asset";
 
 type Chip = { label: string; href: string; icon: LucideIcon };
 type Slide = {
@@ -124,7 +125,7 @@ export function HeroCarousel() {
                   <ul className="mt-6 grid max-w-xl gap-2.5 sm:grid-cols-2">
                     {s.chips.map((c) => (
                       <li key={c.label}>
-                        <Link href={c.href} className="group flex whitespace-nowrap items-center gap-3 rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5 text-[0.95rem] font-medium backdrop-blur transition hover:bg-white/20">
+                        <Link prefetch={PREFETCH} href={c.href} className="group flex whitespace-nowrap items-center gap-3 rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5 text-[0.95rem] font-medium backdrop-blur transition hover:bg-white/20">
                           <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-white/90 text-brand"><c.icon className="size-[18px]" aria-hidden /></span>
                           {c.label}
                         </Link>
@@ -138,7 +139,7 @@ export function HeroCarousel() {
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
                   </EnquiryLink>
                 ) : (
-                  <Link href={s.href} className="group mt-8 inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 py-3 font-medium text-brand shadow-[0_12px_28px_-10px_rgb(0_0_0/0.5)] transition hover:-translate-y-0.5">
+                  <Link prefetch={PREFETCH} href={s.href} className="group mt-8 inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 py-3 font-medium text-brand shadow-[0_12px_28px_-10px_rgb(0_0_0/0.5)] transition hover:-translate-y-0.5">
                   {s.cta}
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
                   </Link>
@@ -147,7 +148,7 @@ export function HeroCarousel() {
               {s.bigIcons ? (
                 <div className="mx-auto grid w-full max-w-[560px] grid-cols-2 gap-4 sm:gap-6">
                   {s.bigIcons.map((c) => (
-                    <Link key={c.label} href={c.href} className="group flex flex-col items-center justify-center gap-3 rounded-3xl py-5 sm:aspect-square sm:gap-4 border border-white/25 bg-white/15 p-4 text-center text-white shadow-[0_30px_60px_-20px_rgb(0_0_0/0.5)] backdrop-blur transition hover:-translate-y-1 hover:bg-white/25">
+                    <Link prefetch={PREFETCH} key={c.label} href={c.href} className="group flex flex-col items-center justify-center gap-3 rounded-3xl py-5 sm:aspect-square sm:gap-4 border border-white/25 bg-white/15 p-4 text-center text-white shadow-[0_30px_60px_-20px_rgb(0_0_0/0.5)] backdrop-blur transition hover:-translate-y-1 hover:bg-white/25">
                       <span className="grid size-20 place-items-center rounded-3xl bg-white text-brand shadow-lg sm:size-32"><c.icon className="size-10 sm:size-16" aria-hidden /></span>
                       <span className="text-base font-semibold sm:text-lg">{c.label}</span>
                     </Link>

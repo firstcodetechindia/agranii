@@ -14,6 +14,7 @@ import { WhySection } from "@/components/home/WhySection";
 import { CommsSection } from "@/components/home/CommsSection";
 import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { PREFETCH } from "@/lib/asset";
 
 export const metadata = buildMetadata({
   title: "Agranii | Software Development & Business Communication Solutions",
@@ -102,7 +103,7 @@ export default function HomePage() {
               const Icon = ind.icon;
               return (
                 <Reveal key={ind.title} delay={i * 0.06} className={i < 2 ? "md:col-span-3" : "md:col-span-2"}>
-                  <Link href={ind.href} className="group relative block h-full min-h-[300px] overflow-hidden rounded-2xl">
+                  <Link prefetch={PREFETCH} href={ind.href} className="group relative block h-full min-h-[300px] overflow-hidden rounded-2xl">
                     <div className={`absolute inset-0 bg-gradient-to-br ${ind.grad}`} />
                     <Photo name={ind.photo} sizes="(min-width:768px) 40vw, 100vw" className="transition duration-700 group-hover:scale-105" />
                     <div aria-hidden className={`absolute inset-0 bg-gradient-to-br ${ind.grad} opacity-20 mix-blend-multiply`} />

@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { NAV } from "@/lib/site";
 import { Logo } from "./Logo";
 import { EnquiryLink } from "@/components/ui/EnquiryLink";
+import { PREFETCH } from "@/lib/asset";
 
 export function Header() {
   const pathname = usePathname();
@@ -30,9 +31,11 @@ export function Header() {
     };
   }, [open]);
 
-  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  // Last path segment without ".html", so it also matches when a page is opened as a plain file.
+  const seg = pathname.replace(/\.html$/, "").replace(/\/+$/, "").split("/").pop() ?? "";
+  const isActive = (href: string) => (href === "/" ? seg === "" || seg === "index" : seg === href.slice(1));
   const solid = scrolled || open;
-  const lightText = !solid && !pathname.startsWith("/privacy-policy") && !pathname.startsWith("/terms-and-conditions");
+  const lightText = !solid && seg !== "privacy-policy" && seg !== "terms-and-conditions";
 
   return (
     <header
@@ -54,7 +57,7 @@ export function Header() {
           <ul className="flex items-center gap-1">
             {NAV.map((n) => (
               <li key={n.href}>
-                <Link
+                <Link prefetch={PREFETCH}
                   href={n.href}
                   aria-current={isActive(n.href) ? "page" : undefined}
                   className={`relative whitespace-nowrap rounded-md px-2.5 py-2 text-[0.93rem] font-medium transition-colors ${
@@ -103,7 +106,7 @@ export function Header() {
               <ul className="flex flex-col">
                 {NAV.map((n) => (
                   <li key={n.href}>
-                    <Link
+                    <Link prefetch={PREFETCH}
                       href={n.href}
                       onClick={() => setOpen(false)}
                       aria-current={isActive(n.href) ? "page" : undefined}

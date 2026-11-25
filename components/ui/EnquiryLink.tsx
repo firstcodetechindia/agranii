@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEnquiry } from "@/components/providers/EnquiryModal";
 import type { SERVICE_OPTIONS } from "@/lib/site";
+import { PREFETCH } from "@/lib/asset";
 
 /**
  * A normal link to /contact-us (works without JS and for crawlers) that opens the
@@ -16,8 +17,9 @@ export function EnquiryLink({
 }) {
   const { open } = useEnquiry();
   return (
-    <Link
+    <Link prefetch={PREFETCH}
       href={href}
+      data-enquiry="true"
       className={className}
       onClick={(ev) => {
         if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button !== 0) return;

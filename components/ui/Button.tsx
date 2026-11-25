@@ -3,6 +3,7 @@ import { EnquiryLink } from "./EnquiryLink";
 import type { SERVICE_OPTIONS } from "@/lib/site";
 import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
+import { PREFETCH } from "@/lib/asset";
 
 type Variant = "primary" | "secondary" | "ghost" | "light";
 
@@ -41,6 +42,6 @@ export function Button({
   return href === "/contact-us" ? (
     <EnquiryLink className={cls} service={service}>{content}</EnquiryLink>
   ) : (
-    <Link href={href} className={cls}>{content}</Link>
+    <Link prefetch={PREFETCH} href={href} className={cls}>{content}</Link>
   );
 }

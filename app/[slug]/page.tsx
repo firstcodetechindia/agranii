@@ -10,6 +10,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { PREFETCH } from "@/lib/asset";
 
 export const dynamicParams = false;
 
@@ -78,7 +79,7 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
         <div>
           <h2 className="!text-2xl">Related services</h2>
           <ul className="mt-5 space-y-3">
-            {l.related.map((r) => <li key={r.href}><Link href={r.href} className="font-medium text-brand underline-offset-4 hover:underline">{r.label} →</Link></li>)}
+            {l.related.map((r) => <li key={r.href}><Link prefetch={PREFETCH} href={r.href} className="font-medium text-brand underline-offset-4 hover:underline">{r.label} →</Link></li>)}
           </ul>
         </div>
       </section>

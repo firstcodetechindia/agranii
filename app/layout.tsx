@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollTopButton } from "@/components/layout/ScrollTopButton";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { EnquiryProvider } from "@/components/providers/EnquiryModal";
 import { Preloader } from "@/components/layout/Preloader";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
@@ -16,6 +17,9 @@ const roboto = Roboto({
   variable: "--font-roboto",
   display: "swap",
 });
+
+// In the static (cPanel) build the header/footer are plain files (header.js / footer.js) next to the HTML pages.
+const STATIC = process.env.NEXT_PUBLIC_STATIC === "1";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -65,10 +69,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Preloader />
         <ScrollToTop />
         <EnquiryProvider>
-          <Header />
+          {STATIC ? <div id="header-slot" dangerouslySetInnerHTML={{ __html: "" }} /> : <Header />}
           <main id="main">{children}</main>
-          <Footer />
+          {STATIC ? <div id="footer-slot" dangerouslySetInnerHTML={{ __html: "" }} /> : <Footer />}
           <ScrollTopButton />
+          <WhatsAppButton />
         </EnquiryProvider>
       </body>
     </html>

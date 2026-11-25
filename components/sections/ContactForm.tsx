@@ -1,11 +1,14 @@
 "use client";
 import { useState } from "react";
+import { Captcha, CAPTCHA_ENABLED } from "@/components/ui/Captcha";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { enquirySchema, type EnquiryInput, type EnquiryData } from "@/lib/enquiry";
-import { SERVICE_OPTIONS, SITE } from "@/lib/site";
+import { SERVICE_OPTIONS, SITE, whatsappLink } from "@/lib/site";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { PREFETCH } from "@/lib/asset";
 
 const BUDGETS = ["Not sure yet", "Under ₹50,000", "₹50,000 – ₹2,00,000", "₹2,00,000 – ₹5,00,000", "Above ₹5,00,000"];
 const input = "mt-1.5 w-full rounded-lg border border-line bg-white px-4 py-3 text-[1rem] text-navy placeholder:text-slate-400 transition focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/15 aria-[invalid=true]:border-red-500";
@@ -23,6 +26,9 @@ function Field({ id, label, required, error, children }: { id: string; label: st
 export function ContactForm() {
   const [state, setState] = useState<"idle" | "ok" | "fail">("idle");
   const [failMsg, setFailMsg] = useState("");
+  const [token, setToken] = useState("");
+  const [capKey, setCapKey] = useState(0);
+  const [capErr, setCapErr] = useState(false);
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<EnquiryInput, unknown, EnquiryData>({
     resolver: zodResolver(enquirySchema),
     mode: "onTouched",
@@ -33,15 +39,19 @@ export function ContactForm() {
 
   async function onSubmit(data: EnquiryData) {
     setState("idle");
+    if (CAPTCHA_ENABLED && !token) { setCapErr(true); return; }
+    setCapErr(false);
     try {
-      const res = await fetch(SITE.enquiryEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      const res = await fetch(SITE.enquiryEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...data, turnstileToken: token }) });
       const json = await res.json().catch(() => ({}));
-      if (res.ok && json.ok) { setState("ok"); reset(); return; }
+      if (res.ok && json.ok) { setState("ok"); reset(); setToken(""); setCapKey((k) => k + 1); return; }
       setFailMsg(json.message ?? "Something went wrong.");
       setState("fail");
+      setToken(""); setCapKey((k) => k + 1);
     } catch {
       setFailMsg("Network error. Please check your connection and try again.");
       setState("fail");
+      setToken(""); setCapKey((k) => k + 1);
     }
   }
 
@@ -95,17 +105,29 @@ export function ContactForm() {
       <div>
         <label className="flex items-start gap-3 text-[0.95rem]">
           <input type="checkbox" className="mt-1 size-5 shrink-0 accent-[#2563eb]" {...e("consent")} {...register("consent")} />
-          <span>I agree to the <Link href="/privacy-policy" className="font-medium text-brand underline">Privacy Policy</Link>. <span className="text-red-600" aria-hidden>*</span></span>
+          <span>I agree to the <Link prefetch={PREFETCH} href="/privacy-policy" className="font-medium text-brand underline">Privacy Policy</Link>. <span className="text-red-600" aria-hidden>*</span></span>
         </label>
         {errors.consent && <p id="consent-err" role="alert" className="mt-1.5 text-sm text-red-600">{errors.consent.message}</p>}
       </div>
       {state === "fail" && (
         <p role="alert" className="flex items-start gap-2 rounded-lg bg-red-50 p-3 text-[0.95rem] text-red-700"><AlertCircle className="mt-0.5 size-5 shrink-0" aria-hidden />{failMsg}</p>
       )}
-      <button type="submit" disabled={isSubmitting} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-6 py-3 font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto">
+      <div>
+        <Captcha onToken={(t) => { setToken(t); if (t) setCapErr(false); }} resetKey={capKey} />
+        {capErr && <p role="alert" className="mt-1.5 text-sm text-red-600">Please complete the verification above.</p>}
+      </div>
+<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <button type="submit" disabled={isSubmitting} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-6 py-3 font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto">
         {isSubmitting ? <><Loader2 className="size-4 animate-spin" aria-hidden />Submitting…</> : "Submit Enquiry"}
       </button>
-      <p className="text-sm">Your information will be used only to respond to your enquiry and handle your business request, in accordance with the <Link href="/privacy-policy" className="text-brand underline">Privacy Policy</Link>.</p>
+      {SITE.contact.whatsapp && (
+        <a href={whatsappLink("Hello AGRANII, I would like to discuss my requirements.")} target="_blank" rel="noopener noreferrer"
+          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-6 py-3 font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_211_102/0.7)] transition hover:-translate-y-0.5 hover:bg-[#1ebe5b] sm:w-auto">
+          <WhatsAppIcon className="size-5" />Chat on WhatsApp
+        </a>
+      )}
+      </div>
+      <p className="text-sm">Your information will be used only to respond to your enquiry and handle your business request, in accordance with the <Link prefetch={PREFETCH} href="/privacy-policy" className="text-brand underline">Privacy Policy</Link>.</p>
     </form>
   );
 }

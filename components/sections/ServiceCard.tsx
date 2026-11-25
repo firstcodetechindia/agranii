@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Service } from "@/lib/content";
+import { PREFETCH } from "@/lib/asset";
 
 export function ServiceCard({ s }: { s: Service }) {
   const Icon = s.icon;
   return (
-    <Link
+    <Link prefetch={PREFETCH}
       href={s.href}
       className="group relative flex h-full flex-col rounded-2xl border border-line/80 bg-white p-6 shadow-soft transition duration-300 hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-lift"
     >

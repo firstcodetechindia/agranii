@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { JsonLd } from "./JsonLd";
 import { breadcrumbLd } from "@/lib/seo";
+import { PREFETCH } from "@/lib/asset";
 
 export function Breadcrumbs({
   items,
@@ -29,7 +30,7 @@ export function Breadcrumbs({
                   </span>
                 ) : (
                   <>
-                    <Link
+                    <Link prefetch={PREFETCH}
                       href={it.path}
                       className={light ? "text-blue-100 hover:text-white" : "hover:text-brand"}
                     >

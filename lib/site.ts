@@ -12,8 +12,8 @@ export const SITE = {
     "Agranii provides custom software development, hospital management software, jewellery software, hotel management software and business communication services.",
   contact: {
     email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
-    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
-    whatsapp: process.env.NEXT_PUBLIC_CONTACT_WHATSAPP ?? "",
+    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "+919694082182",
+    whatsapp: process.env.NEXT_PUBLIC_CONTACT_WHATSAPP ?? "+919694082182",
     address: process.env.NEXT_PUBLIC_CONTACT_ADDRESS ?? "",
     mapsEmbedUrl: process.env.NEXT_PUBLIC_MAPS_EMBED_URL ?? "",
   },
@@ -26,6 +26,8 @@ export const SITE = {
   },
   /** Endpoint the enquiry form posts to. */
   enquiryEndpoint: process.env.NEXT_PUBLIC_ENQUIRY_ENDPOINT ?? "/api/contact",
+  /** Cloudflare Turnstile site key (public). Empty = captcha off. */
+  turnstileSiteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "",
 } as const;
 
 export const NAV = [
@@ -86,3 +88,9 @@ export const SERVICE_BY_PATH: Record<string, (typeof SERVICE_OPTIONS)[number]> =
   "/website-design-service": "Website Design Service",
   "/custom-software": "Custom Software Development",
 };
+
+/** wa.me chat link for the company WhatsApp number, with an optional prefilled message. */
+export function whatsappLink(text?: string): string {
+  const n = SITE.contact.whatsapp.replace(/\D/g, "");
+  return `https://wa.me/${n}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
+}

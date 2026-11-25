@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 import { PHOTOS, type PhotoKey } from "@/lib/photos";
 
 /** Fills its (relatively positioned) parent. */
@@ -8,7 +9,7 @@ export function Photo({ name, sizes, priority = false, eager = false, className 
   const p = PHOTOS[name];
   return (
     <Image
-      src={p.src}
+      src={asset(p.src)}
       alt={p.alt}
       width={p.w}
       height={p.h}

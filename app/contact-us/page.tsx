@@ -5,7 +5,6 @@ import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { PageHero } from "@/components/sections/PageHero";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Button } from "@/components/ui/Button";
 
 export const metadata = buildMetadata({
   title: "Contact Agranii | Software Development & Business Enquiries",
@@ -64,13 +63,6 @@ export default function ContactPage() {
           )}
         </div>
         <div id="enquiry"><ContactForm /></div>
-      </section>
-
-      <section className="container-x pb-8">
-        <div className="rounded-3xl bg-gradient-to-br from-[#e8f1ff] via-[#e6f8fc] to-[#efe9ff] p-8 sm:p-14">
-          <SectionHeading title="Interested in Working or Collaborating With AGRANII?" description="We welcome conversations with developers, technology professionals, businesses and potential partners who share an interest in building meaningful technology solutions." />
-          <div className="mt-8"><Button href="#enquiry">Connect With Us</Button></div>
-        </div>
       </section>
     </>
   );

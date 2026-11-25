@@ -89,3 +89,27 @@ h3 { font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem); font-weight: 600; }
   }
 }
 
+
+/* Animated hero-slide illustrations */
+@keyframes sc-float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-10px) } }
+@keyframes sc-spin { to { transform: rotate(360deg) } }
+@keyframes sc-smoke { 0% { transform: translateY(0) scale(.7); opacity: .7 } 100% { transform: translateY(-46px) scale(1.5); opacity: 0 } }
+@keyframes sc-dash { to { stroke-dashoffset: -120 } }
+@keyframes sc-wave { 0%,100% { transform: skewY(0) } 50% { transform: skewY(9deg) } }
+@keyframes sc-twinkle { 0%,100% { opacity: 1 } 50% { opacity: .2 } }
+@keyframes sc-pulse { 0% { transform: scale(.6); opacity: .7 } 100% { transform: scale(1.6); opacity: 0 } }
+.sc-float { animation: sc-float 5s ease-in-out infinite; }
+.sc-float-b { animation: sc-float 6s ease-in-out -2s infinite; }
+.sc-float-c { animation: sc-float 7s ease-in-out -4s infinite; }
+.sc-spin { animation: sc-spin 14s linear infinite; transform-box: fill-box; transform-origin: center; }
+.sc-spin-r { animation: sc-spin 22s linear reverse infinite; transform-box: fill-box; transform-origin: center; }
+.sc-smoke { animation: sc-smoke 3s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+.sc-smoke-b { animation: sc-smoke 3s ease-out 1.5s infinite; transform-box: fill-box; transform-origin: center; }
+.sc-dash { stroke-dasharray: 14 10; animation: sc-dash 6s linear infinite; }
+.sc-ecg { stroke-dasharray: 40 40; animation: sc-dash 3s linear infinite; }
+.sc-wave { animation: sc-wave 2s ease-in-out infinite; transform-box: fill-box; transform-origin: left center; }
+.sc-tw1 { animation: sc-twinkle 3s infinite; }
+.sc-tw2 { animation: sc-twinkle 3s 1s infinite; }
+.sc-tw3 { animation: sc-twinkle 3s 2s infinite; }
+.sc-pulse { animation: sc-pulse 2.8s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+.sc-pulse-b { animation: sc-pulse 2.8s ease-out 1.4s infinite; transform-box: fill-box; transform-origin: center; }

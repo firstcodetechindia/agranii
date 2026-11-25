@@ -116,9 +116,89 @@ export type Landing = {
   faqs: FaqItem[];
   related: { label: string; href: string }[];
   photo?: PhotoKey;
+  /** undefined: derived from slug; null: no parent breadcrumb */
+  parent?: { name: string; path: string } | null;
 };
 
 export const LANDINGS: Landing[] = [
+  {
+    slug: "manufacturing-software", photo: "dev",
+    metaTitle: "Manufacturing Software Development | Agranii",
+    metaDescription: "Custom manufacturing software from Agranii covering production planning, inventory, purchase, sales, job work and reports. Built around your plant's workflow.",
+    h1: "Manufacturing Software Built Around Your Production Floor.",
+    lead: "Connect purchase, stock, production and dispatch in one system scoped to how your unit actually works.",
+    crumb: "Manufacturing Software", serviceName: "Manufacturing Software", kind: "software", theme: "violet", enquiry: "Discuss Manufacturing Software",
+    intro: [
+      "Manufacturing depends on knowing what is in stock, what is in production and what is ready to dispatch. When these live in separate registers or spreadsheets, planning turns into guesswork.",
+      "AGRANII develops manufacturing software tailored to your process. We study your workflow first, then configure modules for materials, production, job work and billing so information flows between departments.",
+    ],
+    groupsTitle: "Modules we can include",
+    groups: [
+      { title: "Materials", items: ["Raw material inventory", "Purchase management", "Supplier records", "Stock alerts"] },
+      { title: "Production", items: ["Production planning", "Job work tracking", "Work orders", "Finished goods stock"] },
+      { title: "Sales and reporting", items: ["Sales and invoicing", "Dispatch tracking", "Reports and analytics", "Role-based access"] },
+    ],
+    audienceTitle: "Who it suits",
+    audience: ["Small and mid-sized manufacturing units", "Businesses relying on job work", "Teams moving from spreadsheets to one system", "Units that need custom reports"],
+    faqs: [
+      { q: "Can the software be limited to the modules we need?", a: "Yes. We can start with inventory and purchase and add production or dispatch in later phases." },
+      { q: "Can it match our existing process?", a: "Yes. The software is developed after understanding your workflow, rather than forcing a fixed template." },
+      { q: "Do you work with businesses outside Jaipur?", a: "Yes. We are Jaipur-based and work with businesses across India." },
+    ],
+    related: [{ label: "Employee Management Software", href: "/employee-management-software" }, { label: "Jewellery Software", href: "/jewellery-software-jaipur" }, { label: "All custom software", href: "/custom-software" }],
+  },
+  {
+    slug: "school-software", photo: "team",
+    metaTitle: "School Management Software | Agranii",
+    metaDescription: "School management software from Agranii for admissions, attendance, fees, timetables, exams and parent communication. Tailored to your institution.",
+    h1: "School Software That Keeps Admissions, Fees and Classes in Order.",
+    lead: "One platform for administration, teachers and parents, configured for your school's way of working.",
+    crumb: "School Software", serviceName: "School Management Software", kind: "software", theme: "blue", enquiry: "Discuss School Software",
+    intro: [
+      "Schools handle admissions, attendance, fee collection, timetables, examinations and parent communication, often across separate registers and tools.",
+      "AGRANII builds school software that brings these together, so staff spend less time on paperwork and parents get timely information. Modules are scoped to the size and structure of your institution.",
+    ],
+    groupsTitle: "Modules we can include",
+    groups: [
+      { title: "Students", items: ["Admissions", "Student records", "Attendance", "Timetables"] },
+      { title: "Academics", items: ["Exams and results", "Report cards", "Class and subject management", "Teacher records"] },
+      { title: "Administration", items: ["Fee management", "Parent communication", "Reports and analytics", "Role-based access"] },
+    ],
+    audienceTitle: "Who it suits",
+    audience: ["Schools and coaching institutes", "Institutions moving from paper registers", "Administrators who want fee and attendance visibility", "Schools wanting parent messaging"],
+    faqs: [
+      { q: "Can parents be notified automatically?", a: "Yes. Notifications can be connected to our SMS and WhatsApp services where required." },
+      { q: "Can we start with fees and attendance only?", a: "Yes. Modules can be phased in as your needs grow." },
+      { q: "Do you work with schools outside Jaipur?", a: "Yes. We are Jaipur-based and work across India." },
+    ],
+    related: [{ label: "Bulk SMS Service", href: "/bulk-sms-service-jaipur" }, { label: "Bulk WhatsApp Service", href: "/bulk-whatsapp-service-jaipur" }, { label: "All custom software", href: "/custom-software" }],
+  },
+  {
+    slug: "website-design-service", photo: "dev", parent: null,
+    metaTitle: "Website Design Service in Jaipur | Agranii",
+    metaDescription: "Website design service from Agranii: thoughtful, modern, responsive websites for businesses, designed with care for how they look and perform.",
+    h1: "Website Design by People Who Understand the Art of Web Design.",
+    lead: "Get your website designed by an artist who understands the art of web design.",
+    crumb: "Website Design Service", serviceName: "Website Design Service", kind: "software", theme: "teal", enquiry: "Discuss Website Design",
+    intro: [
+      "Your website is often the first impression a customer has of your business. It should look right, load quickly and make the next step obvious.",
+      "AGRANII designs websites with care for layout, typography and clarity, and builds them to work well on phones, tablets and desktops. We begin by understanding your business and audience, then share a plan for your approval.",
+    ],
+    groupsTitle: "What we can cover",
+    groups: [
+      { title: "Design", items: ["Custom visual design", "Responsive layouts", "Brand-consistent styling"] },
+      { title: "Build", items: ["Fast-loading pages", "Contact and enquiry forms", "Search-friendly structure"] },
+      { title: "Beyond launch", items: ["Content updates", "Improvements over time", "Integration with your software"] },
+    ],
+    audienceTitle: "Who it suits",
+    audience: ["Businesses launching their first website", "Companies refreshing an outdated site", "Teams that want a site tied to their software", "Anyone who wants design done with care"],
+    faqs: [
+      { q: "Will the website work on mobile phones?", a: "Yes. Every website is designed to be responsive across screen sizes." },
+      { q: "Can you redesign our existing website?", a: "Yes. We can refresh the design and structure while keeping what already works." },
+      { q: "Can the website connect to our software?", a: "Yes. Forms and data can be integrated with your business software where needed." },
+    ],
+    related: [{ label: "Custom Software", href: "/custom-software" }, { label: "Bulk WhatsApp Service", href: "/bulk-whatsapp-service-jaipur" }, { label: "Contact us", href: "/contact-us" }],
+  },
   {
     slug: "hospital-management-software-jaipur", photo: "doctor",
     metaTitle: "Hospital Management Software in Jaipur | Agranii",

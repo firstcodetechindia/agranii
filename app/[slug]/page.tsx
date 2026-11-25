@@ -29,18 +29,18 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
   const l = LANDINGS.find((x) => x.slug === slug);
   if (!l) notFound();
   const isComm = l.slug.startsWith("bulk-");
-  const parent = isComm ? { name: "Bulk Communication", path: "/bulk-communication" } : { name: "Custom Software", path: "/custom-software" };
+  const parent = l.parent !== undefined ? l.parent : isComm ? { name: "Bulk Communication", path: "/bulk-communication" } : { name: "Custom Software", path: "/custom-software" };
 
   return (
     <>
       <JsonLd data={serviceLd({ name: l.serviceName, description: l.metaDescription, path: `/${l.slug}` })} />
       <PageHero
         theme={l.theme}
-        crumbs={[parent, { name: l.crumb, path: `/${l.slug}` }]}
+        crumbs={[...(parent ? [parent] : []), { name: l.crumb, path: `/${l.slug}` }]}
         title={l.h1}
         text={l.lead}
         cta={{ label: l.enquiry, href: "/contact-us" }}
-        secondary={{ label: `All ${isComm ? "communication services" : "custom software"}`, href: parent.path }}
+        secondary={parent ? { label: `All ${isComm ? "communication services" : "custom software"}`, href: parent.path } : undefined}
         kind={l.kind}
         photo={l.photo}
         service={SERVICE_BY_PATH[`/${l.slug}`]}

@@ -29,10 +29,10 @@ export const SITE = {
 } as const;
 
 export const NAV = [
-  { label: "Home", href: "/" },
   { label: "Custom Software", href: "/custom-software" },
-  { label: "Bulk Communication", href: "/bulk-communication" },
-  { label: "About Us", href: "/about-us" },
+  { label: "Website Design", href: "/website-design-service" },
+  { label: "Bulk WhatsApp Service", href: "/bulk-whatsapp-service-jaipur" },
+  { label: "Bulk SMS", href: "/bulk-sms-service-jaipur" },
   { label: "Contact Us", href: "/contact-us" },
 ] as const;
 
@@ -41,6 +41,9 @@ export const FOOTER_SOFTWARE = [
   { label: "Jewellery Software", href: "/jewellery-software-jaipur" },
   { label: "Employee Management Software", href: "/employee-management-software" },
   { label: "Hotel Management Software", href: "/hotel-management-software-jaipur" },
+  { label: "Manufacturing Software", href: "/manufacturing-software" },
+  { label: "School Software", href: "/school-software" },
+  { label: "Website Design", href: "/website-design-service" },
 ] as const;
 
 export const FOOTER_COMMS = [
@@ -56,6 +59,9 @@ export const SERVICE_OPTIONS = [
   "Jewellery Management Software",
   "Employee Management Software",
   "Hotel Management Software",
+  "Manufacturing Software",
+  "School Software",
+  "Website Design Service",
   "Bulk WhatsApp Service",
   "Bulk SMS Service",
   "Bulk Voice Call Service",
@@ -75,5 +81,8 @@ export const SERVICE_BY_PATH: Record<string, (typeof SERVICE_OPTIONS)[number]> =
   "/bulk-sms-service-jaipur": "Bulk SMS Service",
   "/bulk-voice-call-service": "Bulk Voice Call Service",
   "/bulk-email-service": "Bulk Email Service",
+  "/manufacturing-software": "Manufacturing Software",
+  "/school-software": "School Software",
+  "/website-design-service": "Website Design Service",
   "/custom-software": "Custom Software Development",
 };

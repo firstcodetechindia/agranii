@@ -50,14 +50,14 @@ export function Header() {
       </a>
       <div className="container-x flex h-[var(--header-h)] items-center justify-between gap-6">
         <Logo light={lightText} priority />
-        <nav aria-label="Primary" className="hidden lg:block">
+        <nav aria-label="Primary" className="hidden xl:block">
           <ul className="flex items-center gap-1">
             {NAV.map((n) => (
               <li key={n.href}>
                 <Link
                   href={n.href}
                   aria-current={isActive(n.href) ? "page" : undefined}
-                  className={`relative whitespace-nowrap rounded-md px-3 py-2 text-[0.95rem] font-medium transition-colors ${
+                  className={`relative whitespace-nowrap rounded-md px-2.5 py-2 text-[0.93rem] font-medium transition-colors ${
                     lightText
                       ? isActive(n.href) ? "text-white" : "text-white/80 hover:text-white"
                       : isActive(n.href) ? "text-brand" : "text-navy/80 hover:text-brand"
@@ -74,7 +74,7 @@ export function Header() {
         </nav>
         <div className="flex items-center gap-3">
           <EnquiryLink className="hidden min-h-11 items-center whitespace-nowrap rounded-lg bg-gradient-to-r from-brand to-[#1d4ed8] px-5 text-[0.93rem] font-medium text-white shadow-[0_8px_20px_-8px_rgb(37_99_235/0.7)] transition hover:-translate-y-0.5 sm:inline-flex">
-            Discuss Your Project
+            Let’s Collaborate
           </EnquiryLink>
           <button
             type="button"
@@ -82,7 +82,7 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen((v) => !v)}
-            className="grid size-11 place-items-center rounded-lg border border-line bg-white/90 text-navy lg:hidden"
+            className="grid size-11 place-items-center rounded-lg border border-line bg-white/90 text-navy xl:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -97,7 +97,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-x-0 top-full max-h-[calc(100dvh-var(--header-h))] overflow-y-auto border-t border-line bg-white shadow-xl lg:hidden"
+            className="absolute inset-x-0 top-full max-h-[calc(100dvh-var(--header-h))] overflow-y-auto border-t border-line bg-white shadow-xl xl:hidden"
           >
             <nav aria-label="Mobile" className="container-x py-4">
               <ul className="flex flex-col">
@@ -117,7 +117,7 @@ export function Header() {
                 ))}
               </ul>
               <EnquiryLink onNavigate={() => setOpen(false)} className="mt-5 flex min-h-12 items-center justify-center rounded-lg bg-brand font-medium text-white">
-                Discuss Your Project
+                Let’s Collaborate
               </EnquiryLink>
             </nav>
           </motion.div>

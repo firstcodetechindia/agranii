@@ -132,16 +132,20 @@ function Collaborate() {
 const SCENES = [Industries, Messaging, WebDesign, Collaborate];
 const BOXES = ["0 0 900 700", "0 0 900 700", "0 0 900 700", "0 0 900 700"];
 
-export function SlideScene({ index }: { index: number }) {
+export function SceneArt({ index, className }: { index: number; className?: string }) {
   const Scene = SCENES[index];
   return (
-    <svg
-      aria-hidden
-      viewBox={BOXES[index]}
-      preserveAspectRatio="xMaxYMax meet"
-      className="pointer-events-none absolute bottom-0 right-0 h-full w-full opacity-30 sm:opacity-45 lg:w-[50%] lg:opacity-100"
-    >
+    <svg aria-hidden viewBox={BOXES[index]} preserveAspectRatio="xMidYMax meet" className={className}>
       <Scene />
     </svg>
+  );
+}
+
+export function SlideScene({ index }: { index: number }) {
+  return (
+    <SceneArt
+      index={index}
+      className="pointer-events-none absolute bottom-0 right-0 h-full w-full opacity-30 sm:opacity-45 lg:w-[50%] lg:opacity-100"
+    />
   );
 }

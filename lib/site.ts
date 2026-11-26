@@ -8,13 +8,15 @@ export const SITE = {
   name: "AGRANII",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://agranii.in",
   tagline: "Technology That Understands Business.",
+  /** Short brand line shown under the logo. */
+  brandTagline: "Artist for Design and Custom Solutions",
   description:
     "Agranii provides custom software development, hospital management software, jewellery software, hotel management software and business communication services.",
   contact: {
     email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "help@agranii.in",
     phone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "+919694082182",
     whatsapp: process.env.NEXT_PUBLIC_CONTACT_WHATSAPP ?? "+919694082182",
-    address: process.env.NEXT_PUBLIC_CONTACT_ADDRESS ?? "",
+    address: process.env.NEXT_PUBLIC_CONTACT_ADDRESS ?? "84 Chetak Marg, Pratap Nagar, Jaipur 302033",
     mapsEmbedUrl: process.env.NEXT_PUBLIC_MAPS_EMBED_URL ?? "",
   },
   social: {

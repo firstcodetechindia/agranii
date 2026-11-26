@@ -49,6 +49,13 @@ const orgLd = [
     description: SITE.description,
     ...(SITE.contact.email ? { email: SITE.contact.email } : {}),
     ...(SITE.contact.phone ? { telephone: SITE.contact.phone } : {}),
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "84 Chetak Marg, Pratap Nagar",
+      addressLocality: "Jaipur",
+      postalCode: "302033",
+      addressCountry: "IN",
+    },
     sameAs: Object.values(SITE.social).filter(Boolean),
   },
   {

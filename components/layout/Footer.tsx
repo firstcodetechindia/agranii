@@ -72,7 +72,7 @@ export function Footer() {
       <div className="container-x relative pt-16 sm:pt-20">
         <div className="grid gap-12 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,2fr)] xl:gap-16">
           <Reveal>
-            <Logo light className="h-12" />
+            <Logo light className="h-12" tagline />
             <p className="mt-6 max-w-sm text-2xl font-bold leading-snug text-white">
               Technology That <span className="bg-gradient-to-r from-cyan-300 via-sky-300 to-violet-300 bg-clip-text text-transparent">Understands Business.</span>
             </p>

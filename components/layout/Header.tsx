@@ -52,7 +52,7 @@ export function Header() {
         Skip to content
       </a>
       <div className="container-x flex h-[var(--header-h)] items-center justify-between gap-6">
-        <Logo light={lightText} priority />
+        <Logo light={lightText} priority tagline />
         <nav aria-label="Primary" className="hidden xl:block">
           <ul className="flex items-center gap-1">
             {NAV.map((n) => (
